@@ -1,0 +1,9 @@
+use ExtUtils::MakeMaker;
+WriteMakefile(
+    NAME         => 'Palm::TreoPhoneCallDB',
+    VERSION_FORM => 'lib/Palm/TreoPhoneCallDB.pm',
+    PREREQ_PM    => {
+        Palm::PDB => 1.36,
+        DateTime  => 0.37
+    }
+);
