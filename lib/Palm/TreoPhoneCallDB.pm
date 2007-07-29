@@ -1,4 +1,4 @@
-# $Id: TreoPhoneCallDB.pm,v 1.3 2007/07/29 15:24:13 drhyde Exp $
+# $Id: TreoPhoneCallDB.pm,v 1.4 2007/07/29 15:38:40 drhyde Exp $
 
 package Palm::TreoPhoneCallDB;
 
@@ -10,7 +10,7 @@ use DateTime;
 
 use vars qw($VERSION @ISA $timezone $incl_raw);
 
-$VERSION = 1.0;
+$VERSION = '1.0';
 @ISA = qw(Palm::Raw);
 $timezone = 'Europe/London';
 $incl_raw = 0;
