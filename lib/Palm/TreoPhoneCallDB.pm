@@ -1,4 +1,4 @@
-# $Id: TreoPhoneCallDB.pm,v 1.4 2007/07/29 15:38:40 drhyde Exp $
+# $Id: TreoPhoneCallDB.pm,v 1.5 2007/07/30 14:00:48 drhyde Exp $
 
 package Palm::TreoPhoneCallDB;
 
@@ -10,7 +10,7 @@ use DateTime;
 
 use vars qw($VERSION @ISA $timezone $incl_raw);
 
-$VERSION = '1.0';
+$VERSION = '1.1';
 @ISA = qw(Palm::Raw);
 $timezone = 'Europe/London';
 $incl_raw = 0;
@@ -126,9 +126,28 @@ sub ParseRecord {
 
     $record{rawdata} = delete($record{data});
 
-    my($flags, $date, $time, $duration, $name, $number) = unpack(
-        'n3N1Z*Z*', $record{rawdata}
-    );
+    my($flags, $date, $time, $duration, $name, $number);
+    # the unpack() doesn't seem to work in 5.6.2
+    if($] >= 5.008) {
+        ($flags, $date, $time, $duration, $name, $number) = unpack(
+            'n3N1Z*Z*', $record{rawdata}
+        );
+    } else {
+        # pick the record apart a byte at a time. probably makes horrible
+        # charset assumptions, but that's ok, 5.6 doesn't do unicode anyway
+        my @bytes = (split(//, $record{rawdata}));
+        $flags = 256 * ord($bytes[0]) + ord($bytes[1]);
+        $date  = 256 * ord($bytes[2]) + ord($bytes[3]);
+        $time  = 256 * ord($bytes[4]) + ord($bytes[5]);
+        
+        $duration = 0x1000000 * ord($bytes[6]) +
+                      0x10000 * ord($bytes[7]) +
+                        0x100 * ord($bytes[8]) +
+                                ord($bytes[9]);
+                                
+        ($name, $number) = split(/\x00/, join('', @bytes[10 .. $#bytes]));
+    }
+
     my $year = 1904 + (($date & 0b1111111000000000) >> 9);
     my $month = sprintf('%02d', ($date & 0b111100000) >> 5);
     my $day = sprintf('%02d', $date & 0b11111);
