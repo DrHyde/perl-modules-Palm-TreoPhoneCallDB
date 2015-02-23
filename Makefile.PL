@@ -3,8 +3,9 @@ WriteMakefile(
     NAME         => 'Palm::TreoPhoneCallDB',
     META_MERGE => {
         license => 'other',
-        resource => {
-	    repository => 'https://github.com/DrHyde/perl-modules-Palm-TreoPhoneCallDB'
+        resources => {
+	    repository => 'https://github.com/DrHyde/perl-modules-Palm-TreoPhoneCallDB',
+	    bugtracker => 'https://github.com/DrHyde/perl-modules-Palm-TreoPhoneCallDB/issues'
         }
     },
     VERSION_FROM => 'lib/Palm/TreoPhoneCallDB.pm',
