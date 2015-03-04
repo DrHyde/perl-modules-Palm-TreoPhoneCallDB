@@ -10,7 +10,7 @@ WriteMakefile(
     },
     VERSION_FROM => 'lib/Palm/TreoPhoneCallDB.pm',
     PREREQ_PM    => {
-        Palm::PDB => 1.29,
+        Palm::PDB => 1.016,
         DateTime  => 0.30
     }
 );
