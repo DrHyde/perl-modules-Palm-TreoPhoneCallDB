@@ -193,8 +193,8 @@ field.  It is, however, possible that the category numbers for each
 type of call vary from one Treo to another maybe depending on the
 order in which the first calls are made.
 
-If you find any other bugs please report them either using
-L<http://rt.cpan.org/> or by email.  Ideally, I would like to receive a
+Bug reports should be made on Github or by email.
+Ideally, I would like to receive a
 sample database and a test file, which fails with the latest version of
 the module but will pass when I fix the bug.
 
