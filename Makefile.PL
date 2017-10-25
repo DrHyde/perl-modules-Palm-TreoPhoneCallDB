@@ -2,7 +2,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME         => 'Palm::TreoPhoneCallDB',
     META_MERGE => {
-        license => 'other',
+        license => 'open_source',
         resources => {
 	    repository => 'https://github.com/DrHyde/perl-modules-Palm-TreoPhoneCallDB',
 	    bugtracker => 'https://github.com/DrHyde/perl-modules-Palm-TreoPhoneCallDB/issues'
