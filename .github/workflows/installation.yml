@@ -1,9 +1,5 @@
+on: [push, pull_request]
 name: Installation Test
-
-on:
-  push:
-    branches:
-      - fun
 
 jobs:
   build:
