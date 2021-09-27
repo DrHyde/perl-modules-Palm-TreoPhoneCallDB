@@ -35,6 +35,6 @@ jobs:
           name: dist-for-installation-test
       - name: Display the downloaded files
         run: ls -R
-      - name: Install in a perl:5.34 container (--notest)
+      - name: Install in a perl:5.34 container
         run: cpanm *.tar.gz
 
