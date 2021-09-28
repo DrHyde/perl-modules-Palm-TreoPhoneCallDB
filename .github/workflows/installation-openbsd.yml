@@ -16,12 +16,12 @@ jobs:
           version: 6.8
           shell: bash
           run: |
-            cpan App::cpanminus
-            mkdir templib
-            export PERL5LIB=templib
-            cpanm -L templib --installdeps .
-            perl Makefile.PL
-            make test
-            make dist
-            rm -rf templib
+            cpan App::cpanminus &&
+            mkdir templib &&
+            export PERL5LIB=templib &&
+            perl5/bin/cpanm -L templib --installdeps . &&
+            perl Makefile.PL &&
+            make test &&
+            make dist &&
+            rm -rf templib &&
             cpanm *.tar.gz
