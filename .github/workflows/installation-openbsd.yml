@@ -17,11 +17,11 @@ jobs:
           shell: bash
           run: |
             cpan App::cpanminus &&
-            mkdir templib &&
-            export PERL5LIB=templib &&
-            perl5/bin/cpanm -L templib --installdeps . &&
+            mkdir /home/runner/templib &&
+            /home/runner/perl5/bin/cpanm -L /home/runner/templib --installdeps . &&
+            export PERL5LIB=/home/runner/templib &&
             perl Makefile.PL &&
             make test &&
             make dist &&
-            rm -rf templib &&
+            rm -rf /home/runner/templib &&
             cpanm *.tar.gz
