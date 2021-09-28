@@ -1,5 +1,5 @@
 on: [push, pull_request]
-name: Installation Test
+name: Linux installation
 
 jobs:
   build:

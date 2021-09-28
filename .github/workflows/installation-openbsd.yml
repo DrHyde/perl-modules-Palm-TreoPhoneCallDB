@@ -1,0 +1,27 @@
+name: OpenBSD installation
+
+on: [push]
+
+jobs:
+  openbsd:
+    runs-on: macos-10.15
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Test and build
+        uses: cross-platform-actions/action@v0.0.1
+        with:
+          operating_system: openbsd
+          version: 6.8
+          shell: bash
+          run: |
+            cpan App::cpanminus
+            mkdir templib
+            export PERL5LIB=templib
+            cpanm -L templib --installdeps .
+            perl Makefile.PL
+            make test
+            make dist
+            rm -rf templib
+            cpanm *.tar.gz
