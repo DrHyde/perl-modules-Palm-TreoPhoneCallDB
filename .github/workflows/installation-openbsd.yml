@@ -18,10 +18,10 @@ jobs:
           run: |
             cpan App::cpanminus &&
             mkdir /home/runner/templib &&
-            /home/runner/perl5/bin/cpanm -L /home/runner/templib --installdeps . &&
+            /home/runner/perl5/bin/cpanm --notest -L /home/runner/templib --installdeps . &&
             export PERL5LIB=/home/runner/templib &&
             perl Makefile.PL &&
             make test &&
             make dist &&
             rm -rf /home/runner/templib &&
-            cpanm *.tar.gz
+            /home/runner/perl5/bin/cpanm *.tar.gz
