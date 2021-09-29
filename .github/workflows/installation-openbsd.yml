@@ -29,4 +29,4 @@ jobs:
             make dist TAR=/usr/local/bin/gtar &&
             rm -rf /home/runner/templib &&
             /home/runner/perl5/bin/cpanm --notest --installdeps *.tar.gz &&
-            /home/runner/perl5/bin/cpanm *.tar.gz
+            /home/runner/perl5/bin/cpanm -v *.tar.gz
