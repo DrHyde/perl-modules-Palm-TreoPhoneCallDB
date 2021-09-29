@@ -15,13 +15,18 @@ jobs:
           operating_system: openbsd
           version: 6.8
           shell: bash
+          # this uses a modern GNU tar to create the dist, to simulate something which can potentially
+          # have all kinds of bells and whistles being used to create something for the CPAN. cpanm then
+          # tries to install it using the primitive OpenBSD system tar.
           run: |
+            sudo pkg_add gtar-1.32p1 &&
             cpan App::cpanminus &&
             mkdir /home/runner/templib &&
             /home/runner/perl5/bin/cpanm --notest -L /home/runner/templib --installdeps . &&
             export PERL5LIB=/home/runner/templib/lib/perl5 &&
             perl Makefile.PL &&
             make test &&
-            make dist &&
+            make dist TAR=/usr/local/bin/gtar &&
             rm -rf /home/runner/templib &&
+            /home/runner/perl5/bin/cpanm --notest --installdeps *.tar.gz &&
             /home/runner/perl5/bin/cpanm *.tar.gz
