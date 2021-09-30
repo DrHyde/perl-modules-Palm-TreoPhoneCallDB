@@ -19,13 +19,11 @@ jobs:
           # have all kinds of bells and whistles being used to create something for the CPAN. cpanm then
           # tries to install it using the primitive OpenBSD system tar.
           run: |
-            sudo pkg_add gtar-1.32p1 truncate &&
+            sudo pkg_add gtar-1.32p1 &&
             cpan App::cpanminus &&
             mkdir /home/runner/templib &&
             /home/runner/perl5/bin/cpanm --notest -L /home/runner/templib --installdeps . &&
             export PERL5LIB=/home/runner/templib/lib/perl5 &&
-            (echo __DATA__>>lib/Palm/TreoPhoneCallDB.pm) &&
-            truncate -s 1000000 lib/Palm/TreoPhoneCallDB.pm &&
             perl Makefile.PL &&
             make test &&
             make dist TAR=/usr/local/bin/gtar &&
