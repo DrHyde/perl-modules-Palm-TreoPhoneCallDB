@@ -1,5 +1,5 @@
 on: [push, pull_request]
-name: Linux installation
+name: Dist installation
 
 jobs:
   build:
@@ -33,8 +33,6 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist-for-installation-test
-      - name: Display the downloaded files
-        run: ls -R
       - name: Install in a perl:5.34 container
         run: cpanm *.tar.gz
   install-openbsd:
@@ -42,13 +40,14 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
-      - name: Test and build
+      - name: Build on OpenBSD
         uses: cross-platform-actions/action@v0.0.1
+        env:
+          GITHUB_RUN_ID: github.run_id
         with:
           operating_system: openbsd
           version: 6.9
-          env:
-            GITHUB_RUN_ID: github.run_id
+          environment_variables: GITHUB_RUN_ID
           shell: bash
           run: |
             sudo pkg_add github-cli &&
