@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build on OpenBSD
-        uses: cross-platform-actions/action@v0.0.1
+        uses: cross-platform-actions/action@v0.2.0
         env:
           GITHUB_RUN_ID: github.run_id
         with:
