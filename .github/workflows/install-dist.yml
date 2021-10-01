@@ -50,7 +50,7 @@ jobs:
           environment_variables: GITHUB_RUN_ID
           shell: bash
           run: |
-            sudo pkg_add go &&
+            sudo pkg_add go git &&
             git clone https://github.com/cli/cli.git gh-cli &&
             (cd gh-cli && sudo make install) &&
             cpan App::cpanminus &&
