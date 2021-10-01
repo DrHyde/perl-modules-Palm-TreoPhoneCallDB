@@ -58,7 +58,7 @@ jobs:
             sudo pkg_delete gmake &&
             cpan App::cpanminus &&
             echo '${{ secrets.GITHUB_TOKEN }}'|gh auth login --with-token &&
-            gh run download $GITHUB_RUN_ID -n dist-for-installation-test &&
+            gh run download -n dist-for-installation-test &&
             /home/runner/perl5/bin/cpanm --notest --installdeps *.tar.gz &&
             /home/runner/perl5/bin/cpanm -v *.tar.gz
 
