@@ -34,7 +34,9 @@ jobs:
         with:
           name: dist-for-installation-test
       - name: Install in a perl:5.34 container
-        run: cpanm *.tar.gz
+        run: |
+          echo '${{ github.run_id }}'
+          cpanm *.tar.gz
   install-openbsd:
     runs-on: macos-10.15
     needs: build
@@ -50,6 +52,7 @@ jobs:
           environment_variables: GITHUB_RUN_ID
           shell: bash
           run: |
+            echo $GITHUB_RUN_ID &&
             sudo pkg_add go git gmake &&
             git clone https://github.com/cli/cli.git gh-cli &&
             (cd gh-cli && sudo gmake install) &&
