@@ -50,9 +50,10 @@ jobs:
           environment_variables: GITHUB_RUN_ID
           shell: bash
           run: |
-            sudo pkg_add go git &&
+            sudo pkg_add go git gmake &&
             git clone https://github.com/cli/cli.git gh-cli &&
-            (cd gh-cli && sudo make install) &&
+            (cd gh-cli && sudo gmake install) &&
+            sudo pkg_delete gmake &&
             cpan App::cpanminus &&
             gh run download $GITHUB_RUN_ID &&
             /home/runner/perl5/bin/cpanm --notest --installdeps *.tar.gz &&
