@@ -8,14 +8,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Perl environment
         uses: shogo82148/actions-setup-perl@v1
-      # - name: Install Authoring Dependencies
-      #   run: cpanm -n App::ModuleBuildTiny && cpanm -q -n --no-man-pages --installdeps .
       - name: Test and build
         run: |
-          # cpanm ExtUtils::MakeMaker Test::Pod Test::Pod::Coverage || cat /home/runner/.cpanm/work/*/build.log
-          # perl -Mparent -e0 || cpanm parent
-          # rm -rf /home/runner/.cpanm/work/*
-          cpanm --installdeps . # || cat /home/runner/.cpanm/work/*/build.log
+          cpanm --installdeps .
           perl Makefile.PL
           make test
           make dist
@@ -33,7 +28,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist-for-installation-test
-      - name: Install in a perl:5.34 container
+      - name: Install on Linux
         run: |
           cpanm *.tar.gz
   install-openbsd:
@@ -41,7 +36,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
-      - name: Build on OpenBSD
+      - name: Install on OpenBSD
         uses: cross-platform-actions/action@v0.2.0
         env:
           GITHUB_RUN_ID: github.run_id
@@ -51,14 +46,13 @@ jobs:
           environment_variables: GITHUB_RUN_ID
           shell: bash
           run: |
-            echo $GITHUB_RUN_ID &&
-            sudo pkg_add go git gmake &&
-            git clone https://github.com/cli/cli.git gh-cli &&
-            (cd gh-cli && sudo gmake install) &&
-            sudo pkg_delete gmake &&
-            cpan App::cpanminus &&
-            echo '${{ secrets.GITHUB_TOKEN }}'|gh auth login --with-token &&
-            gh run download -n dist-for-installation-test &&
-            /home/runner/perl5/bin/cpanm --notest --installdeps *.tar.gz &&
+            sudo pkg_add go git gmake
+            git clone https://github.com/cli/cli.git gh-cli
+            (cd gh-cli && sudo gmake install)
+            sudo pkg_delete gmake
+            cpan App::cpanminus
+            echo '${{ secrets.GITHUB_TOKEN }}'|gh auth login --with-token
+            gh run download -n dist-for-installation-test
+            /home/runner/perl5/bin/cpanm --notest --installdeps *.tar.gz
             /home/runner/perl5/bin/cpanm -v *.tar.gz
 
