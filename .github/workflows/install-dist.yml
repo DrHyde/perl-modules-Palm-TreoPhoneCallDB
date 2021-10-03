@@ -35,24 +35,20 @@ jobs:
     runs-on: macos-10.15
     needs: build
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist-for-installation-test
       - name: Install on OpenBSD
         uses: cross-platform-actions/action@v0.2.0
-        env:
-          GITHUB_RUN_ID: github.run_id
         with:
           operating_system: openbsd
           version: 6.9
-          environment_variables: GITHUB_RUN_ID
           shell: bash
           run: |
-            sudo pkg_add go git gmake &&
-            git clone https://github.com/cli/cli.git gh-cli &&
-            (cd gh-cli && sudo gmake install) &&
-            sudo pkg_delete gmake &&
+            mkdir dist-for-test &&
+            tar -C dist-for-test -xzf *.tar.gz &&
+            cd dist-for-test/* &&
             cpan App::cpanminus &&
-            echo '${{ secrets.GITHUB_TOKEN }}'|gh auth login --with-token &&
-            gh run download -n dist-for-installation-test &&
-            /home/runner/perl5/bin/cpanm --notest --installdeps *.tar.gz &&
-            /home/runner/perl5/bin/cpanm -v *.tar.gz
+            /home/runner/perl5/bin/cpanm --quiet --notest --installdeps . &&
+            /home/runner/perl5/bin/cpanm -v .
 
